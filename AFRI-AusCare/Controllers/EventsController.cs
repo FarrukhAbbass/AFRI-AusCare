@@ -16,8 +16,8 @@ namespace AFRI_AusCare.Controllers
         {
             if (HttpContext.Session.Get("UserId") != null)
             {
-                var events = _databaseContext.Events.Where(x => !x.IsDeleted).ToList();
-                return View(events);
+                var eventsList = _databaseContext.Events.Where(x => !x.IsDeleted).ToList();
+                return View(eventsList);
             }
             else
             {
