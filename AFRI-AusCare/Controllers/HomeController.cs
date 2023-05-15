@@ -37,19 +37,19 @@ namespace AFRI_AusCare.Controllers
 
         public IActionResult Team()
         {
-            var teams = _databaseContext.Teams.ToList();
+            var teams = _databaseContext.Teams.Where(x => !x.IsDeleted).ToList();
             return View(teams);
         }
 
         public IActionResult Board()
         {
-            var boardMembers = _databaseContext.BoardMembers.ToList();
+            var boardMembers = _databaseContext.BoardMembers.Where(x => !x.IsDeleted).ToList();
             return View(boardMembers);
         }
 
         public IActionResult Partner()
         {
-            var keyPartners = _databaseContext.KeyPartners.ToList();
+            var keyPartners = _databaseContext.KeyPartners.Where(x => !x.IsDeleted).ToList();
             return View(keyPartners);
         }
 
