@@ -45,13 +45,13 @@
                             <div class="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
-                                        <li><a class="active" href="@Url.Action("Index")">Home</a></li>
-                                        <li><a href="@Url.Action("Gallery")">Gallery</a></li>
-                                        <li><a href="@Url.Action("Events")">Events</a></li>
-                                        <li><a href="@Url.Action("Team")">Teams</a></li>
-                                        <li><a href="@Url.Action("Board")">Board Members</a></li>
-                                        <li><a href="@Url.Action("Partner")">Key Partners</a></li>
-                                        <li><a href="@Url.Action("Contact")">Contact</a></li>
+                                        <li class="nav-item"><a href="@Url.Action("Index")">Home</a></li>
+                                        <li class="nav-item"><a href="@Url.Action("Gallery")">Gallery</a></li>
+                                        <li class="nav-item"><a href="@Url.Action("Events")">Events</a></li>
+                                        <li class="nav-item"><a href="@Url.Action("Team")">Teams</a></li>
+                                        <li class="nav-item"><a href="@Url.Action("Board")">Board Members</a></li>
+                                        <li class="nav-item"><a href="@Url.Action("Partner")">Key Partners</a></li>
+                                        <li class="nav-item"><a href="@Url.Action("Contact")">Contact</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -193,6 +193,17 @@
     <script src="~/js/mail-script.js"></script>
 
     <script src="~/js/main.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Get the current URL path
+            var currentPath = window.location.pathname;
+
+            // Find the menu item with a matching href attribute
+            $('.nav-item a[href="' + currentPath + '"]').addClass('active');
+        });
+
+
+    </script>
 
 </body>
 
