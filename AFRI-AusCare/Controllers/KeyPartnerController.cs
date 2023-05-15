@@ -23,8 +23,8 @@ namespace AFRI_AusCare.Controllers
         {
             if (HttpContext.Session.Get("UserId") != null)
             {
-                var galleries = _dbContext.KeyPartners.Where(x => !x.IsDeleted).ToList();
-                return View(galleries);
+                var partnersList = _dbContext.KeyPartners.Where(x => !x.IsDeleted).ToList();
+                return View(partnersList);
             }
             else
             {
