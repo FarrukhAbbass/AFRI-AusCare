@@ -1,0 +1,34 @@
+﻿@model IEnumerable<AFRI_AusCare.Models.KeyPartner>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4">
+                <div class="img-thumbnail thumbnail">
+                    <a href="@Url.Content(item.ImageUrl)" data-fancybox="gallery">
+                        <img src="@Url.Content(item.ImageUrl)" alt="@item.Name" class="image-size">
+                    </a>
+                    <div class="caption text-center">
+                        <h3>@item.Name</h3>
+                        <p>@item.Role</p>
+                    </div>
+                    <div class="text-center">
+                        <a asp-action="Edit" class="btn btn-md btn-primary" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action="Delete" class="btn btn-md btn-danger" asp-route-id="@item.Id">Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="col-md-4 pt-5">
+            <a href="@Url.Action("Create")" class="btn btn-block" title="Save">
+                <span class="fa fa-plus-circle" style="font-size: 50px;"></span>
+            </a>
+        </div>
+    </div>
+</div>
