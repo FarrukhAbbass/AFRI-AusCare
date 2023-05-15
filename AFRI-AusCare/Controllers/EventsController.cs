@@ -1,15 +1,22 @@
-﻿using AFRI_AusCare.Models;
+﻿using AFRI_AusCare.DataModels;
+using AFRI_AusCare.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AFRI_AusCare.Controllers
 {
     public class EventsController : Controller
     {
-        private readonly DatabaseContext _databaseContext;
+        private DatabaseContext _databaseContext;
+        private IMapper _mapper;
+        private IWebHostEnvironment _webHostEnvironment;
 
-        public EventsController(DatabaseContext databaseContext)
+        public EventsController(DatabaseContext dbContext, IMapper mapper, IWebHostEnvironment webHostEnvironment)
         {
-            _databaseContext = databaseContext;
+            _mapper = mapper;
+            _databaseContext = dbContext;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
@@ -38,22 +45,49 @@ namespace AFRI_AusCare.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Event @event)
+        public async Task<IActionResult> CreateAsync(EventModel eventModel)
         {
-            @event.CreatedDate = DateTime.Now;
-            @event.ModifiedDate = DateTime.Now;
-            @event.IsDeleted = false;
-            _databaseContext.Add(@event);
+            if (eventModel.ImageFile != null && eventModel.ImageFile.Length > 0)
+            {
+                var fileName = Path.GetFileName(eventModel.ImageFile.FileName);
+                string[] fileDetails = fileName.Split(".");
+                fileName = Guid.NewGuid().ToString() + "." + fileDetails[1];
+                var path = Path.Combine(_webHostEnvironment.WebRootPath, "images", fileName);
+                eventModel.ImageUrl = "/images/" + fileName;
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await eventModel.ImageFile.CopyToAsync(stream);
+                }
+            }
+
+            eventModel.ModifiedDate = DateTime.Now;
+            eventModel.IsDeleted = false;
+            var events = _mapper.Map<Event>(eventModel);
+            _databaseContext.Add(events);
             _databaseContext.SaveChanges();
             return Redirect("Index");
         }
 
         [HttpPost]
-        public IActionResult Edit(Event @event)
+        public async Task<IActionResult> EditAsync(EventModel eventModel)
         {
+            if (eventModel.ImageFile != null && eventModel.ImageFile.Length > 0)
+            {
+                var fileName = Path.GetFileName(eventModel.ImageFile.FileName);
+                string[] fileDetails = fileName.Split(".");
+                fileName = Guid.NewGuid().ToString() + "." + fileDetails[1];
+                var path = Path.Combine(_webHostEnvironment.WebRootPath, "images", fileName);
+                eventModel.ImageUrl = "/images/" + fileName;
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await eventModel.ImageFile.CopyToAsync(stream);
+                }
+            }
+            eventModel.ModifiedDate = DateTime.Now;
 
-            @event.ModifiedDate = DateTime.Now;
-            _databaseContext.Update(@event);
+
+            var events = _mapper.Map<Event>(eventModel);
+            _databaseContext.Entry(events).State = EntityState.Modified;
             _databaseContext.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -63,7 +97,8 @@ namespace AFRI_AusCare.Controllers
             if (HttpContext.Session.Get("UserId") != null)
             {
                 var events = _databaseContext.Events.SingleOrDefault(x => x.Id == id);
-                return View(events);
+                var eventModel = _mapper.Map<EventModel>(events);
+                return View(eventModel);
             }
             else
             {

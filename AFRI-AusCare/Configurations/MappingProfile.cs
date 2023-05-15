@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using AFRI_AusCare.DataModels;
+﻿using AFRI_AusCare.DataModels;
 using AFRI_AusCare.Models;
+using AutoMapper;
 
 namespace AFRI_AusCare.Configurations
 {
@@ -12,6 +12,7 @@ namespace AFRI_AusCare.Configurations
             CreateMap<TeamModel, Team>().ReverseMap();
             CreateMap<BoardMemberModel, BoardMember>().ReverseMap();
             CreateMap<KeyPartnerModel, KeyPartner>().ReverseMap();
+            CreateMap<EventModel, Event>().ReverseMap();
         }
     }
 }
