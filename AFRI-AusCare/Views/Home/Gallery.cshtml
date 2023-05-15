@@ -1,0 +1,48 @@
+﻿@model IEnumerable<AFRI_AusCare.Models.Gallery>
+
+<!-- breadcam_area_start -->
+<div class="breadcam_area bradcam_bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="breadcam_text">
+                    <h3>Gallery</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcam_area_end -->
+<!-- volunteers_area_satrt -->
+<div class="volunteers_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="section_title text-center mb-60">
+                    <span>We Work For</span>
+                    <h3>
+                        We Serve For Peoples
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="single_volunteer">
+                        <div class="thumb">
+                            <img src="@item.ImageUrl" alt="">
+                        </div>
+                        <div class="author_name text-center">
+                            <h3>@item.Title</h3>
+                            <span>@item.Description</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- volunteers_area_end -->
