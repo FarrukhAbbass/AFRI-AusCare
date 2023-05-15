@@ -29,6 +29,12 @@ namespace AFRI_AusCare.Controllers
             return View(events);
         }
 
+        public IActionResult Gallery()
+        {
+            var gallery = _databaseContext.Galleries.Where(x => !x.IsDeleted).ToList();
+            return View(gallery);
+        }
+
         public IActionResult Team()
         {
             var teams = _databaseContext.Teams.ToList();
