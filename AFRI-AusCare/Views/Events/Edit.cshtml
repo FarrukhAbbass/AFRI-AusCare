@@ -1,4 +1,4 @@
-﻿@model AFRI_AusCare.Models.Event
+﻿@model AFRI_AusCare.DataModels.EventModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -9,7 +9,7 @@
     <div class="col-md-8 offset-md-2 mt-3">
         <h4>Edit Event</h4>
         <hr />
-        <form asp-action="Edit" method="post">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -22,10 +22,24 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label class="control-label">Event Date</label>
+                <input asp-for="CreatedDate" class="form-control" />
+                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Author" class="control-label"></label>
                 <input asp-for="Author" class="form-control" />
                 <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Image</label>
+                <input type="file" name="ImageFile" class="form-control" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <img src="@Model.ImageUrl" class="form-control" style="width:150px;" id="imgShow" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
