@@ -15,5 +15,12 @@ namespace AFRI_AusCare.DataModels
         [Required]
         public IFormFile? ImageFile { get; set; }
         public bool IsDeleted { get; set; }
+
+        [Required]
+        public string? Facebook { get; set; }
+        [Required]
+        public string? Instagram { get; set; }
+        [Required]
+        public string? Twitter { get; set; }
     }
 }

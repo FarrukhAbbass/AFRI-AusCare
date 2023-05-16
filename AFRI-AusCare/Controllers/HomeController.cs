@@ -20,7 +20,8 @@ namespace AFRI_AusCare.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var adminSetting = _databaseContext.AdminSettings.FirstOrDefault();
+            return View(adminSetting);
         }
 
         public IActionResult Events()

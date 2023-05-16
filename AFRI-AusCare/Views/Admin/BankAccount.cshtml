@@ -1,0 +1,40 @@
+﻿@model AFRI_AusCare.Models.AdminSetting
+
+@{
+    ViewData["Title"] = "Bank Details";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2 mt-3">
+        <h4>Bank Details</h4>
+        <hr />
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="AccountBSB" class="control-label"></label>
+                <input asp-for="AccountBSB" class="form-control" />
+                <span asp-validation-for="AccountBSB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AccountNumber" class="control-label"></label>
+                <input asp-for="AccountNumber" class="form-control" />
+                <span asp-validation-for="AccountNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BankName" class="control-label"></label>
+                <input asp-for="BankName" class="form-control" />
+                <span asp-validation-for="BankName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BankABN" class="control-label"></label>
+                <input asp-for="BankABN" class="form-control" />
+                <span asp-validation-for="BankABN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
