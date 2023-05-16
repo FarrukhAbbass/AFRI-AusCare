@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AFRI_AusCare.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using AFRI_AusCare.Models;
 
 namespace AFRI_AusCare.Controllers
 {
@@ -22,14 +17,28 @@ namespace AFRI_AusCare.Controllers
         // GET: Admin/Edit/5
         public IActionResult Credentials()
         {
-            var adminSetting = _context.AdminSettings.SingleOrDefault(x => x.Id == 1);
-            return View(adminSetting);
+            if (HttpContext.Session.Get("UserId") != null)
+            {
+                var adminSetting = _context.AdminSettings.SingleOrDefault(x => x.Id == 1);
+                return View(adminSetting);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         public IActionResult BankAccount()
         {
-            var adminSetting = _context.AdminSettings.SingleOrDefault(x => x.Id == 1);
-            return View(adminSetting);
+            if (HttpContext.Session.Get("UserId") != null)
+            {
+                var adminSetting = _context.AdminSettings.SingleOrDefault(x => x.Id == 1);
+                return View(adminSetting);
+            }
+            else
+            {
+                return RedirectToAction("Credentials");
+            }
         }
 
         // POST: Admin/Edit/5
@@ -37,25 +46,54 @@ namespace AFRI_AusCare.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, [Bind("Id,AccountBSB,AccountNumber,BankName,BankABN,UserEmail,Password")] AdminSetting adminSetting)
+        public async Task<IActionResult> EditBankAccount(AdminSetting adminSetting)
         {
-            if (id != adminSetting.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(adminSetting);
-                    await _context.SaveChangesAsync();
+                    var admin = _context.AdminSettings.FirstOrDefault(x => x.Id == 1);
+                    if (admin != null)
+                    {
+                        admin.BankABN = adminSetting.BankABN;
+                        admin.BankName = adminSetting.BankName;
+                        admin.AccountNumber = adminSetting.AccountNumber;
+                        admin.AccountBSB = adminSetting.AccountBSB;
+                        _context.Update(admin);
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    
+
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("BankAccount");
+            }
+            return View(adminSetting);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCredentials(AdminSetting adminSetting)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var admin = _context.AdminSettings.FirstOrDefault(x => x.Id == 1);
+                    if (admin != null)
+                    {
+                        admin.UserEmail = adminSetting.UserEmail;
+                        admin.Password = adminSetting.Password;
+                        _context.Update(admin);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+
+                }
+                return RedirectToAction("Index", "Events");
             }
             return View(adminSetting);
         }
