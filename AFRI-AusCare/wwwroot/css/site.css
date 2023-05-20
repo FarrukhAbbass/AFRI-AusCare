@@ -26,6 +26,14 @@ body {
     vertical-align: middle;
     border-style: none;
     width: 250px !important;
-    height: 250px !important;
+    height: 200px !important;
+    margin-top: 80px;
+}
+
+.img-key-member {
+    vertical-align: middle;
+    border-style: none;
+    width: 250px !important;
+    height: 300px !important;
     margin-top: 80px;
 }
