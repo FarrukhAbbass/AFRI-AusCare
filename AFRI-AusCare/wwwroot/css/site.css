@@ -22,18 +22,10 @@ body {
     height: 400px;
 }
 
-.img-key-member {
-    vertical-align: middle;
-    border-style: none;
-    width: 250px !important;
-    height: 150px !important;
-    margin-top: 80px;
-}
-
 .img-key-partner {
     vertical-align: middle;
     border-style: none;
     width: 250px !important;
-    height: 200px !important;
+    height: 300px !important;
     margin-top: 80px;
 }
