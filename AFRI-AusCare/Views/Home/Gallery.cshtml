@@ -32,11 +32,11 @@
         <div class="row" style="margin-top: 50px">
             @foreach (var item in Model)
             {
-               <div class="col-md-6 mb-5">
-                   <div>
-                       <h3>@item.Title</h3>
-                       <hr />
-                   </div>
+                <div class="col-md-6 mb-5">
+                    <div>
+                        <h3>@item.Title</h3>
+                        <hr />
+                    </div>
                     <div id="@item.Id" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
                             @{
@@ -46,7 +46,9 @@
                             @foreach (var img in item.Galleries)
                             {
                                 <div class="carousel-item @(count == 0 ? "active" : "")">
-                                    <img src="@img.ImageUrl" class="d-block w-100" alt="...">
+                                    <a href="@img.ImageUrl" class="img-pop-up">
+                                        <div class="single-gallery-image" style="background: url(@img.ImageUrl);"></div>
+                                    </a>
                                 </div>
 
                                 count++;
@@ -60,7 +62,7 @@
                             <span class="carousel-control-next-icon"></span>
                         </a>
                     </div>
-               </div>
+                </div>
             }
         </div>
     </div>

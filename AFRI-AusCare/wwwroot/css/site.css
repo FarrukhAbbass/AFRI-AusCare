@@ -52,3 +52,35 @@ body {
         opacity: 1;
         border: 3px solid #450000;
     }
+
+
+.cards-home {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 2em;
+    background-color: #450000;
+    position: relative;
+    padding-top: 60px !important;
+    padding-right: 40px !important;
+    padding-bottom: 60px !important;
+    padding-left: 40px !important;
+    box-shadow: 0px 70px 120px -42px rgba(0,0,0,0.3);
+    transition: box-shadow 300ms ease 0ms;
+    text-align: center;
+    color: white !important;
+    transition-delay: 1s;
+}
+
+    .cards-home h5 {
+        letter-spacing: 7px;
+        color: white !important;
+        font-weight: 600;
+    }
+    .cards-home p {
+        letter-spacing: 1px;
+        color: #beb793 !important;
+    }
+
+    .cards-home:hover {
+        background-color: #2c0707;
+    }
