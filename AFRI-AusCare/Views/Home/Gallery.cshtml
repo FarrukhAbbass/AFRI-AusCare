@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AFRI_AusCare.Models.Gallery>
+﻿@model IEnumerable<AFRI_AusCare.Models.Album>
 
 <!-- breadcam_area_start -->
 <div class="breadcam_area bradcam_bg">
@@ -20,30 +20,63 @@
 <!-- volunteers_area_satrt -->
 <div class="volunteers_area">
     <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="section_title text-center mb-60">
-                    <span>We Work For</span>
+        <div class="col-xl-12 col-md-12">
+            <div class="causes_info">
+                <div class="section_title text-center">
                     <h3>
-                        We Serve For Peoples
+                        Albums: All Images we have and fun
                     </h3>
                 </div>
             </div>
         </div>
         <div class="row">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="..." class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="..." class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="..." class="d-block w-100" alt="...">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
             @foreach (var item in Model)
             {
-
-                <div class="col-xl-3 col-md-6">
-                    <div class="single_volunteer">
-                        <div class="thumb">
-                            <img src="@item.ImageUrl" alt="">
-                        </div>
-                        <div class="author_name text-center">
-                            <h3>@item.Title</h3>
-                            <span>@item.Description</span>
-                        </div>
+                <div id="@item.Id" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#item.Id" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#item.Id" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#item.Id" data-bs-slide-to="2" aria-label="Slide 3"></button>
                     </div>
+                    <div class="carousel-inner">
+                        @foreach (var img in item.Galleries)
+                        {
+                            <div class="carousel-item active" data-bs-interval="10000">
+                                <img src="@img.ImageUrl" class="d-block w-100" alt="...">
+                                <h5>@img.Title</h5>
+                                <p>@img.Description</p>
+                            </div>
+                        }
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#item.Id" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#item.Id" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
             }
         </div>

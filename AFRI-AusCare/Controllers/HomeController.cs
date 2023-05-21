@@ -1,6 +1,7 @@
 ﻿using AFRI_AusCare.DataModels;
 using AFRI_AusCare.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
@@ -32,7 +33,7 @@ namespace AFRI_AusCare.Controllers
 
         public IActionResult Gallery()
         {
-            var gallery = _databaseContext.Galleries.Where(x => !x.IsDeleted).ToList();
+            var gallery = _databaseContext.Albums.Include(x => x.Galleries).Where(x => !x.IsDeleted).ToList();
             return View(gallery);
         }
 
@@ -62,6 +63,18 @@ namespace AFRI_AusCare.Controllers
         public IActionResult Contact()
         {
             return View();
+        }
+
+        public IActionResult Media()
+        {
+            var medias = _databaseContext.Medias.Where(x => !x.IsDeleted).ToList();
+            return View(medias);
+        }
+
+        public IActionResult NDIS()
+        {
+            var medias = _databaseContext.Services.Where(x => !x.IsDeleted).ToList();
+            return View(medias);
         }
 
         [HttpPost]

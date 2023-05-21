@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AFRI_AusCare.Models.KeyPartner>
+﻿@model IEnumerable<AFRI_AusCare.Models.Media>
 
 <!-- breadcam_area_start -->
 <div class="breadcam_area bradcam_bg">
@@ -6,41 +6,43 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="breadcam_text">
-                    <h3>Media Page</h3>
-                    <p class="text-white"> We are building a future where services will acknowledge and are sensitive to African and 
-                        culturally and linguistically diverse (CALD) people´s perception of mental health.</p>
+                    <h3>Media</h3>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- breadcam_area_end -->
+
+
 <!-- volunteers_area_satrt -->
 <div class="volunteers_area">
     <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="section_title text-center mb-60">
-                    <span>Below You Can See</span>
+        <div class="col-xl-12 col-md-12">
+            <div class="causes_info">
+                <div class="section_title text-center">
                     <h3>
-                        Media Coverage Of Afri Aus Care Projects
+                        Media Spotlight: Inspiring Stories of Change
                     </h3>
                 </div>
+                <p>
+                    @*
+                    <p>
+                    We are building a future where services will acknowledge and are sensitive to African and culturally and linguistically diverse (CALD) people´s perception of mental health.
+                    </p>*@
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top:7rem;">
             @foreach (var item in Model)
             {
-                <div class="col-xl-3 col-md-6">
-                    <div class="single_volunteer">
-                        <div class="thumb text-center">
-                            <img src="@item.ImageUrl" alt="" class="img-key-partner">
-                            <div class="social_links">
-                                <ul>
-                                    <li><a href="@item.Facebook"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="@item.Twitter"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a href="@item.Instagram"><i class="fa fa-instagram"></i></a></li>
-                                </ul>
+                <div class="col-md-4">
+                    <div class="owl-item active">
+                        <div class="single_help_wrap">
+                            <div class="thumb">
+                                <a href="@item.MediaURL" title=""><img src="@item.ImageUrl" alt="" class="mediaImages"></a>
+                            </div>
+                            <div class="help_content">
+                                <h3>@item.Title</h3>
+                                <p>@item.Description</p>
                             </div>
                         </div>
                     </div>
@@ -48,5 +50,6 @@
             }
         </div>
     </div>
+
 </div>
 <!-- volunteers_area_end -->

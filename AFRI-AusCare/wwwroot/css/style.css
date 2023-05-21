@@ -809,10 +809,9 @@ h3 {
 }
 
 .slider_area {
-    height: 1000px;
     position: relative;
     z-index: 8;
-    height: 1000px;
+    height: 650px;
     position: relative;
     z-index: 8;
     background-repeat: no-repeat;
@@ -827,13 +826,13 @@ h3 {
 
 @media (min-width: 768px) and (max-width: 991px) {
     .slider_area {
-        height: 800px
+        height: 500px
     }
 }
 
 @media (min-width: 992px) and (max-width: 1200px) {
     .slider_area {
-        height: 800px
+        height: 500px
     }
 }
 

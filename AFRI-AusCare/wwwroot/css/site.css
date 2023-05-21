@@ -30,3 +30,25 @@ body {
     height: 300px !important;
     margin-top: 80px;
 }
+
+.mediaImages {
+    width: 345px;
+    height: 260px;
+    opacity: 0.8;
+}
+
+    .mediaImages:hover {
+        opacity: 1;
+        border: 3px solid #450000;
+    }
+
+.servicesImages {
+    width: 547px;
+    height: 387px;
+    opacity: 0.8;
+}
+
+    .servicesImages:hover {
+        opacity: 1;
+        border: 3px solid #450000;
+    }
