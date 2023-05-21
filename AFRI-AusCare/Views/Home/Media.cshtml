@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AFRI_AusCare.Models.BoardMember>
+﻿@model IEnumerable<AFRI_AusCare.Models.KeyPartner>
 
 <!-- breadcam_area_start -->
 <div class="breadcam_area bradcam_bg">
@@ -6,14 +6,9 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="breadcam_text">
-                    <h3>Board Members</h3>
-                    <p class="text-white">
-                        Our dedicated board members work very hard behind the scenes to ensure Afri-Aus Care <br>
-                        delivers quality services to the public. Thier endless experince and expertise play a <br>
-                        key role in driving our passion to achieve our vision and setting the standard. With their <br>
-                        continued support and encouragement we look forward to many years of contributing to the community.
-
-                    </p>
+                    <h3>Media Page</h3>
+                    <p class="text-white"> We are building a future where services will acknowledge and are sensitive to African and 
+                        culturally and linguistically diverse (CALD) people´s perception of mental health.</p>
                 </div>
             </div>
         </div>
@@ -26,9 +21,9 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="section_title text-center mb-60">
-                    <span>We Work For</span>
+                    <span>Below You Can See</span>
                     <h3>
-                        We Serve For Peoples
+                        Media Coverage Of Afri Aus Care Projects
                     </h3>
                 </div>
             </div>
@@ -36,7 +31,6 @@
         <div class="row">
             @foreach (var item in Model)
             {
-
                 <div class="col-xl-3 col-md-6">
                     <div class="single_volunteer">
                         <div class="thumb text-center">
@@ -48,10 +42,6 @@
                                     <li><a href="@item.Instagram"><i class="fa fa-instagram"></i></a></li>
                                 </ul>
                             </div>
-                        </div>
-                        <div class="author_name text-center">
-                            <h3>@item.Name</h3>
-                            <span>@item.Role</span>
                         </div>
                     </div>
                 </div>
