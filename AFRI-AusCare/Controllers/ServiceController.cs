@@ -22,15 +22,29 @@ namespace AFRI_AusCare.Controllers
         // GET: Media
         public async Task<IActionResult> Index()
         {
-            return _context.Services != null ?
+            if (HttpContext.Session.Get("UserId") != null)
+            {
+                return _context.Services != null ?
                         View(await _context.Services.Where(x => !x.IsDeleted).ToListAsync()) :
                         Problem("Entity set 'DatabaseContext.Services'  is null.");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         // GET: Media/Create
         public IActionResult Create()
         {
-            return View();
+            if (HttpContext.Session.Get("UserId") != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         // POST: Media/Create
@@ -40,49 +54,63 @@ namespace AFRI_AusCare.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ServiceModel media)
         {
-            if (ModelState.IsValid)
+            if (HttpContext.Session.Get("UserId") != null)
             {
-                if (media.ImageFile != null && media.ImageFile.Length > 0)
+                if (ModelState.IsValid)
                 {
-                    var fileName = Path.GetFileName(media.ImageFile.FileName);
-                    string[] fileDetails = fileName.Split(".");
-                    fileName = Guid.NewGuid().ToString() + "." + fileDetails[1];
-                    var path = Path.Combine(_webHostEnvironment.WebRootPath, "images", fileName);
-                    media.ImageUrl = "/images/" + fileName;
-                    using (var stream = new FileStream(path, FileMode.Create))
+                    if (media.ImageFile != null && media.ImageFile.Length > 0)
                     {
-                        await media.ImageFile.CopyToAsync(stream);
+                        var fileName = Path.GetFileName(media.ImageFile.FileName);
+                        string[] fileDetails = fileName.Split(".");
+                        fileName = Guid.NewGuid().ToString() + "." + fileDetails[1];
+                        var path = Path.Combine(_webHostEnvironment.WebRootPath, "images", fileName);
+                        media.ImageUrl = "/images/" + fileName;
+                        using (var stream = new FileStream(path, FileMode.Create))
+                        {
+                            await media.ImageFile.CopyToAsync(stream);
+                        }
                     }
+
+                    media.CreatedDate = DateTime.Now;
+                    media.ModifiedDate = DateTime.Now;
+                    media.IsDeleted = false;
+                    var service = _mapper.Map<Service>(media);
+                    _context.Add(service);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
 
-                media.CreatedDate = DateTime.Now;
-                media.ModifiedDate = DateTime.Now;
-                media.IsDeleted = false;
-                var service = _mapper.Map<Service>(media);
-                _context.Add(service);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(media);
             }
-
-            return View(media);
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         // GET: Media/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Services == null)
+            if (HttpContext.Session.Get("UserId") != null)
             {
-                return NotFound();
-            }
+                if (id == null || _context.Services == null)
+                {
+                    return NotFound();
+                }
 
-            var service = await _context.Services.FindAsync(id);
-            if (service == null)
+                var service = await _context.Services.FindAsync(id);
+                if (service == null)
+                {
+                    return NotFound();
+                }
+
+                var mediaModel = _mapper.Map<ServiceModel>(service);
+                return View(mediaModel);
+            }
+            else
             {
-                return NotFound();
+                return RedirectToAction("Login", "Account");
             }
-
-            var mediaModel = _mapper.Map<ServiceModel>(service);
-            return View(mediaModel);
         }
 
         // POST: Media/Edit/5

@@ -22,15 +22,29 @@ namespace AFRI_AusCare.Controllers
         // GET: Media
         public async Task<IActionResult> Index()
         {
-            return _context.Medias != null ?
+            if (HttpContext.Session.Get("UserId") != null)
+            {
+                return _context.Medias != null ?
                         View(await _context.Medias.Where(x => !x.IsDeleted).ToListAsync()) :
                         Problem("Entity set 'DatabaseContext.Medias'  is null.");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         // GET: Media/Create
         public IActionResult Create()
         {
-            return View();
+            if (HttpContext.Session.Get("UserId") != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         // POST: Media/Create
@@ -69,19 +83,26 @@ namespace AFRI_AusCare.Controllers
         // GET: Media/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Medias == null)
+            if (HttpContext.Session.Get("UserId") != null)
             {
-                return NotFound();
-            }
+                if (id == null || _context.Medias == null)
+                {
+                    return NotFound();
+                }
 
-            var media = await _context.Medias.FindAsync(id);
-            if (media == null)
+                var media = await _context.Medias.FindAsync(id);
+                if (media == null)
+                {
+                    return NotFound();
+                }
+
+                var mediaModel = _mapper.Map<MediaModel>(media);
+                return View(mediaModel);
+            }
+            else
             {
-                return NotFound();
+                return RedirectToAction("Login", "Account");
             }
-
-            var mediaModel = _mapper.Map<MediaModel>(media);
-            return View(mediaModel);
         }
 
         // POST: Media/Edit/5
