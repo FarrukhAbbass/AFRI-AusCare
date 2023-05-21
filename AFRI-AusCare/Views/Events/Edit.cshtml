@@ -34,12 +34,22 @@
                 <span asp-validation-for="Author" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label>Image</label>
+                <label>Cover Image</label>
                 <input type="file" name="ImageFile" class="form-control" />
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <img src="@Model.ImageUrl" class="form-control" style="width:150px;" id="imgShow" />
+            </div>
+            <div class="form-group">
+                <label>Event Images</label>
+                <input type="file" name="images" class="form-control" multiple onchange="handleFileSelect(event, false)" />
+            </div>
+            <div class="row mt-3" id="albumImagesShow">
+                @foreach (var gallery in Model.Album.Galleries)
+                {
+                    <img src="@gallery.ImageUrl" class="img-thumbnail" alt="Gallery Image" style="max-width:200px; max-height:200px; margin-right:10px;" />
+                }
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

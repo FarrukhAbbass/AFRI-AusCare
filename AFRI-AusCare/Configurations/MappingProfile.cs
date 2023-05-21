@@ -13,6 +13,7 @@ namespace AFRI_AusCare.Configurations
             CreateMap<BoardMemberModel, BoardMember>().ReverseMap();
             CreateMap<KeyPartnerModel, KeyPartner>().ReverseMap();
             CreateMap<EventModel, Event>().ReverseMap();
+            CreateMap<AlbumModel, Album>().ReverseMap();
         }
     }
 }

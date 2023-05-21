@@ -11,7 +11,6 @@ namespace AFRI_AusCare.DataModels
         public string? Description { get; set; }
         [Required]
         public string? Author { get; set; }
-        [Required]
         public string? ImageUrl { get; set; }
         [Required]
         public IFormFile? ImageFile { get; set; }
@@ -19,5 +18,8 @@ namespace AFRI_AusCare.DataModels
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
+        public int AlbumId { get; set; }
+        public AlbumModel? Album { get; set; }
+
     }
 }

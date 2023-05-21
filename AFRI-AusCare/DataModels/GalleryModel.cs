@@ -15,5 +15,7 @@ namespace AFRI_AusCare.DataModels
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
+        public int AlbumId { get; set; }
+        public AlbumModel? Album { get; set; }
     }
 }

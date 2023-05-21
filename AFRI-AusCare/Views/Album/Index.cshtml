@@ -1,0 +1,39 @@
+﻿@model IEnumerable<AFRI_AusCare.Models.Album>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<div class="row">
+    <div class="col-md-8 offset-md-2 mt-3">
+        <h3>Albums</h3>
+        <hr />
+        <div class="row">
+            @foreach (var album in Model)
+            {
+                <div class="col-md-3">
+                    <div class="card mb-4">
+                        <i class="fa-solid fa-album-collection"></i>
+                        <img src="/img/album.jpg" class="card-img-top" alt="Album Image" style="width:180px; margin:0 auto;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">@album.Title</h5>
+                            <h5 class="card-title">Images: @album.Galleries.Count</h5>
+                            <h5 class="card-title">@album.CreatedDate.Value.ToString("dd-MM-yyyy")</h5>
+                            <a href="@Url.Action("Details", new { id = album.Id })" class="btn btn-primary">View</a>
+                            @if (album.AlbumType == AlbumType.Album)
+                            {
+                                <a href="@Url.Action("Edit", new { id = album.Id })" class="btn btn-secondary">Edit</a>
+                                <a href="@Url.Action("Delete", new { id = album.Id })" class="btn btn-danger">Delete</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="col-md-3">
+                <a href="@Url.Action("Create")" class="btn btn-block" title="Add New Album">
+                    <span class="fa fa-plus-circle" style="font-size: 50px;"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

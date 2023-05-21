@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using AFRI_AusCare.DataModels;
+﻿using AFRI_AusCare.DataModels;
 using AFRI_AusCare.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +23,7 @@ namespace AFRI_AusCare.Controllers
         {
             if (HttpContext.Session.Get("UserId") != null)
             {
-                var galleries = _dbContext.Galleries.Where(x => !x.IsDeleted).ToList();
+                var galleries = _dbContext.Galleries.Where(x => !x.IsDeleted && x.AlbumId == 1).ToList();
                 return View(galleries);
             }
             else
@@ -62,6 +62,7 @@ namespace AFRI_AusCare.Controllers
                         await galleryModel.ImageFile.CopyToAsync(stream);
                     }
                 }
+                galleryModel.AlbumId = 1;
                 galleryModel.CreatedDate = DateTime.Now;
                 galleryModel.ModifiedDate = DateTime.Now;
                 galleryModel.IsDeleted = false;
@@ -78,7 +79,7 @@ namespace AFRI_AusCare.Controllers
         {
             if (HttpContext.Session.Get("UserId") != null)
             {
-                var gallery = _dbContext.Galleries.SingleOrDefault(g => g.Id == id);
+                var gallery = _dbContext.Galleries.SingleOrDefault(g => g.Id == id && g.AlbumId == 1);
                 var galleryModel = _mapper.Map<GalleryModel>(gallery);
                 return View(galleryModel);
             }
@@ -118,13 +119,19 @@ namespace AFRI_AusCare.Controllers
 
         public ActionResult Delete(int id)
         {
-            var gallery = _dbContext.Galleries.SingleOrDefault(g => g.Id == id);
+            var gallery = _dbContext.Galleries.SingleOrDefault(g => g.Id == id && g.AlbumId == 1);
             if (gallery != null)
             {
-                gallery.ModifiedDate = DateTime.Now;
-                gallery.IsDeleted = true;
-                _dbContext.Update(gallery);
-                _dbContext.SaveChanges();
+                if (gallery.ImageUrl != null)
+                {
+                    var path = $"{_webHostEnvironment.WebRootPath}//{gallery.ImageUrl}";
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
+                    _dbContext.Galleries.Remove(gallery);
+                    _dbContext.SaveChanges();
+                }
             }
             return RedirectToAction("Index");
         }

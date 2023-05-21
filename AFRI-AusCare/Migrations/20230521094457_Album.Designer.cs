@@ -4,6 +4,7 @@ using AFRI_AusCare.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AFRI_AusCare.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230521094457_Album")]
+    partial class Album
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,14 +64,8 @@ namespace AFRI_AusCare.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AlbumType")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsAlbum")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -132,9 +129,6 @@ namespace AFRI_AusCare.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AlbumId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
 
@@ -157,9 +151,6 @@ namespace AFRI_AusCare.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AlbumId")
-                        .IsUnique();
 
                     b.ToTable("Events");
                 });
@@ -280,17 +271,6 @@ namespace AFRI_AusCare.Migrations
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("AFRI_AusCare.Models.Event", b =>
-                {
-                    b.HasOne("AFRI_AusCare.Models.Album", "Album")
-                        .WithOne("Event")
-                        .HasForeignKey("AFRI_AusCare.Models.Event", "AlbumId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Album");
-                });
-
             modelBuilder.Entity("AFRI_AusCare.Models.Gallery", b =>
                 {
                     b.HasOne("AFRI_AusCare.Models.Album", "Album")
@@ -304,8 +284,6 @@ namespace AFRI_AusCare.Migrations
 
             modelBuilder.Entity("AFRI_AusCare.Models.Album", b =>
                 {
-                    b.Navigation("Event");
-
                     b.Navigation("Galleries");
                 });
 #pragma warning restore 612, 618

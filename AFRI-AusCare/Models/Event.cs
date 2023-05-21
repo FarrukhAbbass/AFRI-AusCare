@@ -10,5 +10,7 @@
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
+        public int AlbumId { get; set; }
+        public Album Album { get; set; }
     }
 }
