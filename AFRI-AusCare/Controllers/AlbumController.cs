@@ -21,32 +21,53 @@ namespace AFRI_AusCare.Controllers
         // GET: /Album
         public async Task<IActionResult> Index()
         {
-            List<Album> albums = await _context.Albums.Include(x => x.Galleries).Where(x => !x.IsDeleted).ToListAsync();
-            return View(albums);
+            if (HttpContext.Session.Get("UserId") != null)
+            {
+                List<Album> albums = await _context.Albums.Include(x => x.Galleries).Where(x => !x.IsDeleted).ToListAsync();
+                return View(albums);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         // GET: /Album/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (HttpContext.Session.Get("UserId") != null)
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                Album? album = await _context.Albums.Include(x => x.Galleries).FirstOrDefaultAsync(a => a.Id == id);
+
+                if (album == null)
+                {
+                    return NotFound();
+                }
+
+                return View(album);
             }
-
-            Album? album = await _context.Albums.Include(x => x.Galleries).FirstOrDefaultAsync(a => a.Id == id);
-
-            if (album == null)
+            else
             {
-                return NotFound();
+                return RedirectToAction("Login", "Account");
             }
-
-            return View(album);
         }
 
         // GET: /Album/Create
         public IActionResult Create()
         {
-            return View();
+            if (HttpContext.Session.Get("UserId") != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         // POST: /Album/Create
@@ -98,19 +119,26 @@ namespace AFRI_AusCare.Controllers
         // GET: /Album/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (HttpContext.Session.Get("UserId") != null)
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                Album? album = await _context.Albums.Include(x => x.Galleries).FirstOrDefaultAsync(a => a.Id == id && a.AlbumType == AlbumType.Album);
+
+                if (album == null)
+                {
+                    return NotFound();
+                }
+
+                return View(album);
             }
-
-            Album? album = await _context.Albums.Include(x => x.Galleries).FirstOrDefaultAsync(a => a.Id == id && a.AlbumType == AlbumType.Album);
-
-            if (album == null)
+            else
             {
-                return NotFound();
+                return RedirectToAction("Login", "Account");
             }
-
-            return View(album);
         }
 
         // POST: /Album/Edit/5
@@ -191,39 +219,46 @@ namespace AFRI_AusCare.Controllers
         // GET: /Album/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (HttpContext.Session.Get("UserId") != null)
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            Album? album = await _context.Albums.Include(x => x.Galleries)
-                .FirstOrDefaultAsync(a => a.Id == id && a.AlbumType == AlbumType.Album);
+                Album? album = await _context.Albums.Include(x => x.Galleries)
+                    .FirstOrDefaultAsync(a => a.Id == id && a.AlbumType == AlbumType.Album);
 
-            if (album == null)
-            {
-                return NotFound();
+                if (album == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    _context.Albums.Remove(album);
+                    if (album.Galleries != null)
+                    {
+                        foreach (var item in album.Galleries)
+                        {
+                            if (item.ImageUrl != null)
+                            {
+                                var path = $"{_webHostEnvironment.WebRootPath}//{item.ImageUrl}";
+                                if (System.IO.File.Exists(path))
+                                {
+                                    System.IO.File.Delete(path);
+                                    _context.Galleries.Remove(item);
+                                }
+                            }
+                        }
+                        _context.SaveChanges();
+                    }
+
+                    return RedirectToAction(nameof(Index));
+                }
             }
             else
             {
-                _context.Albums.Remove(album);
-                if (album.Galleries != null)
-                {
-                    foreach (var item in album.Galleries)
-                    {
-                        if (item.ImageUrl != null)
-                        {
-                            var path = $"{_webHostEnvironment.WebRootPath}//{item.ImageUrl}";
-                            if (System.IO.File.Exists(path))
-                            {
-                                System.IO.File.Delete(path);
-                                _context.Galleries.Remove(item);
-                            }
-                        }
-                    }
-                    _context.SaveChanges();
-                }
-
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Login", "Account");
             }
         }
 
