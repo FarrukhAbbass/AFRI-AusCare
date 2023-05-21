@@ -18,9 +18,9 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
     <PackageReference Include="PayPalCheckoutSdk" Version="1.0.4" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\images\" />
-  </ItemGroup>
+  
+   <ItemGroup>
+     <Folder Include="wwwroot\images\" />
+   </ItemGroup>
 
 </Project>

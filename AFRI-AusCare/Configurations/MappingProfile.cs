@@ -14,6 +14,8 @@ namespace AFRI_AusCare.Configurations
             CreateMap<KeyPartnerModel, KeyPartner>().ReverseMap();
             CreateMap<EventModel, Event>().ReverseMap();
             CreateMap<AlbumModel, Album>().ReverseMap();
+            CreateMap<MediaModel, Media>().ReverseMap();
+            CreateMap<ServiceModel, Service>().ReverseMap();
         }
     }
 }

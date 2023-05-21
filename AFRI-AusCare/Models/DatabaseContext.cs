@@ -16,6 +16,8 @@ namespace AFRI_AusCare.Models
         public virtual DbSet<KeyPartner> KeyPartners { get; set; }
         public virtual DbSet<AdminSetting> AdminSettings { get; set; }
         public virtual DbSet<Album> Albums { get; set; }
+        public virtual DbSet<Service> Services { get; set; }
+        public virtual DbSet<Media> Medias { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +31,8 @@ namespace AFRI_AusCare.Models
                 .HasForeignKey(x => x.AlbumId);
             modelBuilder.Entity<Event>().HasOne(g => g.Album).WithOne(x => x.Event).
                 HasForeignKey<Event>(x => x.AlbumId).IsRequired();
+            modelBuilder.Entity<Media>().HasKey(x => x.Id);
+            modelBuilder.Entity<Service>().HasKey(x => x.Id);
         }
     }
 }
