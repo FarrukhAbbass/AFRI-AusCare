@@ -33,7 +33,7 @@ namespace AFRI_AusCare.Controllers
 
         public IActionResult Gallery()
         {
-            var gallery = _databaseContext.Albums.Include(x => x.Galleries).Where(x => !x.IsDeleted).ToList();
+            var gallery = _databaseContext.Albums.Include(x => x.Galleries).Where(x => !x.IsDeleted && x.Galleries.Count > 0).ToList();
             return View(gallery);
         }
 
